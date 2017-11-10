@@ -5,8 +5,8 @@ This problem provides practice at:
   ***  LOOPS WITHIN LOOPS in 2D GRAPHICS problems.  ***
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Jing Lin.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ########################################################################
 # Students:
@@ -29,12 +29,11 @@ Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
 ########################################################################
 
 import rosegraphics as rg
-
-
+import math
 def main():
     """ Calls the   TEST   functions in this module. """
     run_test_hourglass()
-    run_test_many_hourglasses()
+    # run_test_many_hourglasses()
 
 
 def run_test_hourglass():
@@ -101,7 +100,34 @@ def hourglass(window, n, point, radius, color):
     #    DIFFICULTY:      8
     #    TIME ESTIMATE:  25 minutes (warning: this problem is challenging)
     # ------------------------------------------------------------------
+    o_x = point.x
+    o_y = point.y
+    x1 = point.x
+    y1 = point.y
+    x2 = point.x
+    y2 = point.y
 
+    for i in range(n):
+        for j in range(i+1):
+            circle = rg.Circle(rg.Point(x1, y1), radius)
+            line = rg.Line(rg.Point(x1-radius,y1),rg.Point(x1+radius,y1))
+            circle.fill_color = color
+            circle.attach_to(window)
+            line.attach_to(window)
+            window.render()
+            x1 += 2*radius
+        y1 -= math.sqrt(3)*radius
+        x1 = o_x - radius * (i + 1)
+        for j in range(i+1):
+            circle = rg.Circle(rg.Point(x2, y2), radius)
+            line = rg.Line(rg.Point(x2 - radius, y2), rg.Point(x2 + radius, y2))
+            circle.fill_color = color
+            circle.attach_to(window)
+            line.attach_to(window)
+            window.render()
+            x2 -= 2*radius
+        y2 += math.sqrt(3)*radius
+        x2 = o_x + radius * (i + 1)
 
 def run_test_many_hourglasses():
     """ Tests the    many_hourglasses    function. """
