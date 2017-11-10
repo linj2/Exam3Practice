@@ -32,8 +32,8 @@ import rosegraphics as rg
 import math
 def main():
     """ Calls the   TEST   functions in this module. """
-    run_test_hourglass()
-    # run_test_many_hourglasses()
+    # run_test_hourglass()
+    run_test_many_hourglasses()
 
 
 def run_test_hourglass():
@@ -88,7 +88,7 @@ def hourglass(window, n, point, radius, color):
     a color that rosegraphics understands.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #       We provided some tests for you (above).
     # ------------------------------------------------------------------
     ####################################################################
@@ -205,6 +205,29 @@ def many_hourglasses(window, square, m, colors):
     #                         a correct "hourglass" function above)
     #    TIME ESTIMATE:  20 minutes (warning: this problem is challenging)
     # ------------------------------------------------------------------
+    cn1_x = square.center.x - square.length_of_each_side
+    cn1_y = square.center.y - square.length_of_each_side
+    cn2_x = square.center.x + square.length_of_each_side
+    cn2_y = square.center.y + square.length_of_each_side
+
+    o1_x = square.center.x - square.length_of_each_side
+    o1_y = square.center.y - square.length_of_each_side
+    o2_x = square.center.x + square.length_of_each_side
+    o2_y = square.center.y + square.length_of_each_side
+
+    radius = square.length_of_each_side/2
+    for k in range(m):
+        if cn2_x<window.width or cn2_y<window.height:
+            if k >= len(colors):
+                k=0
+            rect = rg.Rectangle(rg.Point(cn1_x, cn1_y), rg.Point(cn2_x, cn2_y))
+            hourglass(window,1+k, rect.get_center(), radius, colors[k])
+            cn1_x =cn1_x + 2 * radius *(1+k)+radius
+            cn1_y =o1_y - (1+k)*radius
+            cn2_x =cn2_x + (1 + k) * radius*2+radius
+            cn2_y =o2_y + (1+k)*radius
+            rect.attach_to(window)
+            window.render()
 
 
 # ----------------------------------------------------------------------
