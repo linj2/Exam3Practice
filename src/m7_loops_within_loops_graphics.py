@@ -205,29 +205,51 @@ def many_hourglasses(window, square, m, colors):
     #                         a correct "hourglass" function above)
     #    TIME ESTIMATE:  20 minutes (warning: this problem is challenging)
     # ------------------------------------------------------------------
-    cn1_x = square.center.x - square.length_of_each_side
-    cn1_y = square.center.y - square.length_of_each_side
-    cn2_x = square.center.x + square.length_of_each_side
-    cn2_y = square.center.y + square.length_of_each_side
+    # length = square.length_of_each_side
+    # cn1_x = square.center.x - length
+    # cn1_y = square.center.y - length
+    # cn2_x = square.center.x + length
+    # cn2_y = square.center.y + length
+    #
+    # o1_x = square.center.x - square.length_of_each_side
+    # o1_y = square.center.y - square.length_of_each_side
+    # o2_x = square.center.x + square.length_of_each_side
+    # o2_y = square.center.y + square.length_of_each_side
+    # index = 0
+    # radius = square.length_of_each_side/2
+    # for k in range(m):
+    #     if index >= len(colors):
+    #         index = 0
+    #     rect = rg.Rectangle(rg.Point(cn1_x, cn1_y), rg.Point(cn2_x, cn2_y))
+    #     hourglass(window,1+k, rect.get_center(), radius, colors[index])
+    #     cn1_x =cn1_x + (1+k)*square.length_of_each_side
+    #     cn1_y =cn1_y - (1/1.15)*square.length_of_each_side
+    #     cn2_x =cn2_x + (1+(1 +k))/1.15 * square.length_of_each_side
+    #     cn2_y =cn2_y + (1/1.15) * square.length_of_each_side
+    #     rect.attach_to(window)
+    #     window.render()
+    #     index+=1
+    length = square.length_of_each_side
+    upper_left = rg.Point(square.center.x - (length / 2), square.center.y - (length / 2))
+    lower_left = rg.Point(square.center.x + (length / 2), square.center.y + (length / 2))
+    ul_x = upper_left.x
+    ul_y = upper_left.y
+    lr_x = lower_left.x
+    lr_y = lower_left.y
+    index = 0
 
-    o1_x = square.center.x - square.length_of_each_side
-    o1_y = square.center.y - square.length_of_each_side
-    o2_x = square.center.x + square.length_of_each_side
-    o2_y = square.center.y + square.length_of_each_side
-
-    radius = square.length_of_each_side/2
     for k in range(m):
-        if cn2_x<window.width or cn2_y<window.height:
-            if k >= len(colors):
-                k=0
-            rect = rg.Rectangle(rg.Point(cn1_x, cn1_y), rg.Point(cn2_x, cn2_y))
-            hourglass(window,1+k, rect.get_center(), radius, colors[k])
-            cn1_x =cn1_x + 2 * radius *(1+k)+radius
-            cn1_y =o1_y - (1+k)*radius
-            cn2_x =cn2_x + (1 + k) * radius*2+radius
-            cn2_y =o2_y + (1+k)*radius
-            rect.attach_to(window)
-            window.render()
+        rect = rg.Rectangle(rg.Point(ul_x, ul_y), rg.Point(lr_x, lr_y))
+        rect.attach_to(window)
+        hourglass(window, k + 1, rect.get_center(), length / 2, colors[index])
+        window.render()
+        index = index + 1
+        if index == len(colors):
+            index = 0
+        ul_x = ul_x + (k + 1) * length
+        ul_y = ul_y - (length) * (1 / 1.15)
+        lr_x = lr_x + ((1 + (k + 1)) * length)
+        lr_y = lr_y + length * (1 / 1.15)
 
 
 # ----------------------------------------------------------------------
